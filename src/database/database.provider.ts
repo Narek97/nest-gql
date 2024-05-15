@@ -1,17 +1,14 @@
 import { Sequelize } from 'sequelize-typescript';
 import { databaseConfig } from './database.config';
-import { models } from '@Models/index';
+import Models from '@Models/index';
 
-export const DB = new Sequelize(databaseConfig[process.env.NODE_ENV]);
+export const sequelize = new Sequelize(databaseConfig);
+sequelize.addModels(Models);
 
 export const databaseProviders = {
   provide: 'SEQUELIZE',
   useFactory: async () => {
-    DB.addModels([
-      // Add your sequelize models here
-      ...models,
-    ]);
-    await DB.sync();
-    return DB;
+    await sequelize.authenticate();
+    return sequelize;
   },
 };

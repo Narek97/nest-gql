@@ -1,0 +1,33 @@
+version: "3"
+services:
+  nest-app:
+    build: .
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mysql
+    networks:
+      - nest-mysql-network
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root2022
+      MYSQL_DATABASE: nest_gql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "0.0.0.0"]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - nest-mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - nest-mysql-network
+
+networks:
+  nest-mysql-network:
+    driver: bridge
+
+volumes:
+  nest-mysql:

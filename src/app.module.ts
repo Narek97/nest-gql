@@ -14,16 +14,15 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      envFilePath: `.${process.env.NODE_ENV || 'development'}.env`,
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       useFactory: () => ({
-        subscriptions: {
-          'subscriptions-transport-ws': {
-            onConnect: (connection, req) => ({ connection, req }),
-          },
-        },
+        // subscriptions: {
+        //   'subscriptions-transport-ws': {
+        //     onConnect: (connection, req) => ({ connection, req }),
+        //   },
+        // },
         installSubscriptionHandlers: true,
         autoSchemaFile: true,
         include: Modules,
